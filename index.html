@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - مصرف النوران</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* من هنا يمكنك التحكم بالأحجام بكل سهولة */
+        :root {
+            --logo-width: 850px;       /* تم تكبير الرقم قليلاً */
+            --globe-size: 25px;        /* حجم أيقونة الكوكب */
+            --btn-font-size: 12px;     /* حجم الكتابات داخل الأزرار والروابط */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #000; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 400px;
+            height: 100vh;
+            max-height: 850px;
+            position: relative;
+            background: url('https://i.imgur.com/FpRNevV.png') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            
+            /* تم تصغير الموقع كامل بنسبة 20% ليصبح 80% */
+            transform: scale(1.0);
+            transform-origin: center center;
+        }
+
+        .globe-icon {
+            position: absolute;
+            top: 40px;
+            right: 20px; /* تم تقليل الرقم لإزاحة الكوكب لليمين */
+            /* تم ربط الحجم بالمتغير بالأعلى */
+            width: var(--globe-size); 
+            height: var(--globe-size);
+            z-index: 2;
+            cursor: pointer;
+        }
+
+        .logo-container {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+            padding: 0 20px;
+        }
+
+        .logo-container img {
+            /* تم تعديل الخصائص هنا ليسمح بتكبير اللوجو بناءً على المتغيرات بشكل صحيح */
+            width: var(--logo-width);
+            max-width: 130%; 
+            height: auto;
+        }
+
+        .bottom-actions {
+            padding: 0 24px 40px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 2;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px; 
+            border-radius: 6px; 
+            /* تم ربط الحجم بالمتغير بالأعلى */
+            font-size: var(--btn-font-size);
+            font-weight: 700;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-login {
+            background-color: #ffffff;
+            color: #17426a; 
+        }
+
+        .btn-new-customer {
+            background-color: transparent;
+            color: #ffffff;
+            border: 1px solid #ffffff;
+        }
+
+        .footer-text {
+            color: #ffffff;
+            font-size: 13px;
+            text-align: center;
+            line-height: 1.8;
+            margin-top: 15px;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- أيقونة الكوكب الأرضي -->
+        <svg class="globe-icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+
+        <!-- منطقة اللوجو (الشعار) -->
+        <div class="logo-container">
+            <img src="https://i.imgur.com/TUCNTXE.png" alt="شعار الموقع">
+        </div>
+
+        <!-- الأزرار السفلية -->
+        <div class="bottom-actions">
+            <button class="btn btn-login" onclick="window.location.href='log.html'">تسجيل الدخول</button>
+            <button class="btn btn-new-customer" onclick="window.location.href='log.html'">مستخدم جديد؟ افتح حساباً</button>
+            
+            <div class="footer-text">
+                بالاستمرار أنت توافق على كل من<br>
+                شروط الاستخدام و سياسة الخصوصية
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
