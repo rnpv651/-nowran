@@ -274,7 +274,8 @@
                     </svg>
                 </div>
                 <input type="password" id="password" name="password" placeholder="كلمة المرور" required>
-                <div class="icon-left">
+                <!-- إضافة مُعرّف (id) لتسهيل الوصول للأيقونة عبر الجافاسكربت -->
+                <div class="icon-left" id="togglePassword">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                         <circle cx="12" cy="12" r="3"></circle>
@@ -295,8 +296,19 @@
         </div>
     </div>
 
-    <!-- كود الجافاسكربت الخاص بك لعملية الإرسال -->
+    <!-- كود الجافاسكربت الخاص بك لعملية الإرسال بالإضافة إلى كود إظهار كلمة المرور -->
     <script>
+        // تفعيل أيقونة إظهار وإخفاء كلمة المرور
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+
+        togglePassword.addEventListener('click', function () {
+            // التبديل بين نوع "password" و "text"
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+        });
+
+        // كود الإرسال الأصلي
         document.getElementById('login-form').addEventListener('submit', function(event) {
             event.preventDefault();
             const submitBtn = document.querySelector('.btn-primary');
